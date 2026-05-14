@@ -25,12 +25,12 @@ export default function Overlay() {
             Nectar.ai builds AI systems, websites, and apps that grow your business while you sleep.
           </p>
           <div className="flex flex-col sm:flex-row gap-4">
-            <button className="px-8 py-4 bg-nectar-honey hover:bg-nectar-glow text-nectar-black font-medium transition-all rounded-full drop-shadow-[0_0_15px_rgba(245,183,0,0.4)]">
+            <a href="#contact" className="px-8 py-4 bg-nectar-honey hover:bg-nectar-glow text-nectar-black font-medium transition-all rounded-full drop-shadow-[0_0_15px_rgba(245,183,0,0.4)] text-center">
               Get My AI Strategy
-            </button>
-            <button className="px-8 py-4 border border-white/20 hover:bg-white/5 text-white font-medium transition-all rounded-full backdrop-blur-sm">
+            </a>
+            <a href="#process" className="px-8 py-4 border border-white/20 hover:bg-white/5 text-white font-medium transition-all rounded-full backdrop-blur-sm text-center">
               See How It Works
-            </button>
+            </a>
           </div>
         </motion.div>
       </section>
@@ -57,7 +57,7 @@ export default function Overlay() {
       </section>
 
       {/* SECTION 3: THE NECTAR SYSTEM */}
-      <section className="h-screen w-full flex flex-col justify-center px-10 md:px-24">
+      <section className="h-screen w-full flex flex-col justify-center px-10 md:px-24" id="services">
          <motion.div 
           initial={{ opacity: 0, y: 50 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -113,7 +113,7 @@ export default function Overlay() {
       </section>
 
       {/* SECTION 5: HOW IT WORKS */}
-      <section className="h-screen w-full flex flex-col justify-center px-10 md:px-24">
+      <section className="h-screen w-full flex flex-col justify-center px-10 md:px-24" id="process">
         <motion.div 
           initial={{ opacity: 0, x: -50 }}
           whileInView={{ opacity: 1, x: 0 }}
@@ -141,7 +141,7 @@ export default function Overlay() {
       </section>
 
       {/* SECTION 6: SOCIAL PROOF */}
-      <section className="h-[100vh] w-full flex flex-col justify-center items-end px-10 md:px-24 text-right">
+      <section className="h-[100vh] w-full flex flex-col justify-center items-end px-10 md:px-24 text-right" id="work">
         <motion.div 
           initial={{ opacity: 0, y: 50 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -166,7 +166,7 @@ export default function Overlay() {
       </section>
 
       {/* SECTION 7: CTA */}
-      <section className="h-screen w-full flex flex-col justify-center items-center text-center px-10 md:px-24 bg-[#050505]/80">
+      <section className="h-screen w-full flex flex-col justify-center items-center text-center px-10 md:px-24 bg-[#050505]/80" id="contact">
         <motion.div 
           initial={{ opacity: 0, scale: 0.95 }}
           whileInView={{ opacity: 1, scale: 1 }}

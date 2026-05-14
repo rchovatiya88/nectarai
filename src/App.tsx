@@ -5,8 +5,13 @@ import { EffectComposer, Bloom } from "@react-three/postprocessing";
 import Experience from "./components/canvas/Experience";
 import Overlay from "./components/overlays/Overlay";
 import Navigation from "./components/Navigation";
+import PricingPage from "./components/PricingPage";
 
 export default function App() {
+  if (window.location.pathname === "/pricing") {
+    return <PricingPage />;
+  }
+
   return (
     <div className="w-full h-screen bg-nectar-black selection:bg-nectar-honey selection:text-nectar-black font-sans">
       <Navigation />
@@ -20,7 +25,7 @@ export default function App() {
             <Experience />
             <Overlay />
           </ScrollControls>
-          <EffectComposer disableNormalPass>
+          <EffectComposer enableNormalPass={false}>
             <Bloom mipmapBlur intensity={1.2} luminanceThreshold={0.4} />
           </EffectComposer>
         </Suspense>
