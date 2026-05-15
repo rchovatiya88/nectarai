@@ -15,14 +15,14 @@ export default function Experience() {
 
   useFrame((state, delta) => {
     if (!cameraGroup.current) return;
-    
+
     // Smooth scroll camera
     cameraGroup.current.position.z = THREE.MathUtils.lerp(
       cameraGroup.current.position.z,
       -scroll.offset * 25, // Extend distance to match 7 pages
       delta * 12
     );
-    
+
     // Add slight sway based on scroll
     cameraGroup.current.rotation.y = THREE.MathUtils.lerp(
       cameraGroup.current.rotation.y,
@@ -37,7 +37,7 @@ export default function Experience() {
         (state.pointer.y * state.viewport.height) / 2,
         0
       );
-      
+
       cursorLightRef.current.position.lerp(pointerVec, delta * 5);
     }
   });
@@ -46,42 +46,41 @@ export default function Experience() {
     <>
       <ambientLight intensity={0.2} color="#ffffff" />
       <directionalLight position={[10, 10, 5]} intensity={1} color="#FFD166" />
-      
+
       {/* Orb following cursor */}
       <pointLight ref={cursorLightRef} intensity={2} color="#F5B700" distance={10} />
 
       <group ref={cameraGroup}>
         <Particles count={300} />
-        
-        {/* Section 1: Hero - Flower & Bees */}
+
+        {/* Section 1: Hero - Flower & Interactive Bees */}
         <group position={[1.5, -1, -2]}>
           <Flower scale={1.5} />
-          <Bees count={20} radius={4} center={[0, 1, 0]} burst={false} />
+          {/* Main hero swarm - interactive */}
+          <Bees count={20} radius={4} center={[0, 1, 0]} burst={false} interactive />
         </group>
 
-        {/* Section 2: Problem - Dim flower (Off center) */}
+        {/* Section 2: Problem - Dim flower */}
         <group position={[-2.5, -1, -8]}>
           <Flower scale={1} dim={true} />
         </group>
 
-        {/* Section 3 & 4: Hive & Transformation */}
+        {/* Section 3 & 4: Hive & Transformation - larger interactive swarm */}
         <group position={[1.5, 0, -14]}>
           <Hive scale={2} />
-          <Bees count={50} radius={8} center={[0, 0, 0]} burst={true} />
+          <Bees count={50} radius={8} center={[0, 0, 0]} burst={true} interactive />
         </group>
 
         {/* Section 5: Process Path */}
         <group position={[-1.5, 0, -20]}>
-          <Bees count={30} radius={5} center={[0, 0, 0]} burst={true} />
+          <Bees count={30} radius={5} center={[0, 0, 0]} burst={true} interactive />
         </group>
-        
+
         {/* Section 6 & 7: Hive Core */}
         <group position={[0, 0, -26]}>
           <Hive scale={5} core={true} />
         </group>
-
       </group>
     </>
   );
 }
-

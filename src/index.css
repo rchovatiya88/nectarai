@@ -9,7 +9,7 @@
   --color-nectar-honey: #F5B700;
   --color-nectar-amber: #FFB703;
   --color-nectar-glow: #FFD166;
-  
+
   --color-background: var(--color-nectar-black);
   --color-foreground: #FFFFFF;
 }
@@ -31,12 +31,27 @@ body {
   width: 8px;
 }
 ::-webkit-scrollbar-track {
-  background: var(--color-nectar-black); 
+  background: var(--color-nectar-black);
 }
 ::-webkit-scrollbar-thumb {
-  background: #222; 
+  background: #222;
   border-radius: 4px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--color-nectar-honey); 
+  background: var(--color-nectar-honey);
+}
+
+/* Animations */
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+@keyframes pulse-glow {
+  0%, 100% { opacity: 0.4; }
+  50% { opacity: 1; }
+}
+
+.animate-float {
+  animation: float 3s ease-in-out infinite;
 }
