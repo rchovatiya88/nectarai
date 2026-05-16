@@ -8,7 +8,8 @@ const teamBees = [
     icon: Code,
     emoji: "👨‍💻",
     bio: "Ships production code while you sleep.",
-    price: "$499/mo",
+    price: "$0–$0.33/task",
+    priceNote: "Free for most tasks",
     dept: "Engineering",
     skills: ["React", "Three.js", "APIs", "TypeScript"],
   },
@@ -18,7 +19,8 @@ const teamBees = [
     icon: Palette,
     emoji: "🎨",
     bio: "Turns ideas into pixel-perfect interfaces.",
-    price: "$449/mo",
+    price: "$0.07–$0.26/task",
+    priceNote: "~$0.20 avg / mockup",
     dept: "Creative",
     skills: ["Figma", "Design Systems", "Prototyping"],
   },
@@ -28,7 +30,8 @@ const teamBees = [
     icon: PenTool,
     emoji: "✍️",
     bio: "Writes copy that converts browsers to buyers.",
-    price: "$349/mo",
+    price: "$0–$0.33/task",
+    priceNote: "Free for social posts",
     dept: "Creative",
     skills: ["SEO", "Blogs", "Email", "Conversion"],
   },
@@ -38,7 +41,8 @@ const teamBees = [
     icon: ShieldCheck,
     emoji: "🧪",
     bio: "Catches bugs before your customers do.",
-    price: "$349/mo",
+    price: "$0.13–$0.39/task",
+    priceNote: "Audit + fixes",
     dept: "Engineering",
     skills: ["Playwright", "Lighthouse", "Security"],
   },
@@ -48,7 +52,8 @@ const teamBees = [
     icon: Briefcase,
     emoji: "📋",
     bio: "Runs your ops so you can run your business.",
-    price: "$399/mo",
+    price: "$0–$0.05/task",
+    priceNote: "Mostly free models",
     dept: "Operations",
     skills: ["Notion", "Airtable", "CRM", "Calendar"],
   },
@@ -58,7 +63,8 @@ const teamBees = [
     icon: BrainCircuit,
     emoji: "🧠",
     bio: "Builds AI that thinks faster than competitors.",
-    price: "$799/mo",
+    price: "$0.30–$2.00/task",
+    priceNote: "Premium model by default",
     dept: "Engineering",
     skills: ["Fine-tuning", "RAG", "vLLM", "Benchmarks"],
   },
@@ -117,8 +123,13 @@ export default function TeamSection() {
               ))}
             </div>
             <div className="flex items-center justify-between pt-4 border-t border-white/5">
-              <span className="text-nectar-honey font-bold">{bee.price}</span>
-              <span className="text-xs text-gray-500">monthly retainer</span>
+              <div>
+                <span className="text-nectar-honey font-bold">{bee.price}</span>
+                {bee.priceNote && (
+                  <p className="text-xs text-gray-500">{bee.priceNote}</p>
+                )}
+              </div>
+              <span className="text-xs text-gray-500">per task (+30% fee)</span>
             </div>
           </motion.div>
         ))}

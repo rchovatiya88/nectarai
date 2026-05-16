@@ -2,22 +2,22 @@
 // Single source of truth for all marketing copy
 
 export const hero = {
-  headline: "Hire AI Employees That Never Clock Out.",
+  headline: "AI Employees That Cost Pennies, Not Paychecks.",
   subheadline:
-    "Nectar.ai provides AI Bees — dedicated workers for customer support, lead generation, content, scheduling, and more. Starting at $199/month.",
+    "Nectar.ai dispatches specialized AI workers (Bees) for your business tasks. You pay what the AI costs us — plus a 30% service fee. Most tasks are free. A full website starts at $301.",
   ctaPrimary: "Meet the Bees",
-  ctaSecondary: "Book Free Demo",
+  ctaSecondary: "See How Pricing Works",
 };
 
 export const problem = {
-  headline: 'Small businesses are drowning in busywork.',
+  headline: 'Small businesses overpay for basic work.',
   points: [
-    "40+ hours/week on repetitive tasks",
-    "Can't afford to hire full-time staff",
-    "Leads slip through the cracks",
-    "Competitors are already using AI",
+    "Agencies charge $3,000 for websites that cost $20 in AI compute",
+    "Freelancers bill $100/hour for tasks AI does in seconds",
+    "AI tools charge monthly but still require you to do the work",
+    "No one shows you what the AI actually costs",
   ],
-  closing: "AI Bees do the work so you can focus on growth.",
+  closing: "NECTAR.AI passes through AI costs at zero markup. You see every penny.",
 };
 
 export const howItWorks = {

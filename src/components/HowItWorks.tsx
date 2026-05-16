@@ -6,19 +6,19 @@ const steps = [
     num: "01",
     icon: Search,
     title: "Choose Your Bee",
-    desc: "Browse 15+ specialized AI employees. Each Bee is trained for a specific job — from engineering to content to research.",
+    desc: "Browse 15+ specialized AI employees. Each Bee is trained for a specific job. Pick what you need, pay per task, no monthly minimums.",
   },
   {
     num: "02",
     icon: Settings,
     title: "Configure & Deploy",
-    desc: "Set addons, see a live demo, and customize workflows. Your Bee connects to your existing tools in under an hour.",
+    desc: "Set your budget cap, see a live demo, and connect your Google Drive. Your Bee starts immediately. We use free AI models when possible.",
   },
   {
     num: "03",
     icon: Rocket,
-    title: "Scale Without Hiring",
-    desc: "Add more Bees anytime. Upgrade from a single worker to a full Hive. No interviews. No salaries. No turnover.",
+    title: "Pay As You Go",
+    desc: "You pay what the AI costs us — plus 30%. Most tasks are free. Set daily/weekly caps in Telegram. Full cost transparency on every receipt.",
   },
 ];
 
@@ -39,7 +39,7 @@ export default function HowItWorks() {
           Hire AI talent in minutes, not months.
         </h2>
         <p className="text-gray-400 text-lg max-w-2xl mx-auto">
-          Traditional hiring takes 6 weeks and costs $15K per role. Our Bees start the same day.
+          Traditional agencies charge $2,500 for what we deliver for $301. Same quality, 1/10th the price, full transparency.
         </p>
       </motion.div>
 

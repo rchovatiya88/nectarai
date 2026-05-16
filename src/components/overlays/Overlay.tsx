@@ -22,7 +22,7 @@ const faqs = [
   },
   {
     q: "How is this different from Upwork or Fiverr?",
-    a: "Freelancers charge $50–$150/hour, take days to respond, and disappear mid-project. Bees cost $199–$799/month flat, respond in seconds, and never ghost you. Plus: no contracts, no minimums, no hiring overhead.",
+    a: "Freelancers charge $50–$150/hour, take days to respond, and disappear mid-project. Bees cost $0–$2 per task (AI cost + 30% fee), respond in seconds, and never ghost you. A full website build costs $301 total vs $2,500+ from an agency.",
   },
   {
     q: "Can I cancel anytime?",
@@ -52,12 +52,13 @@ export default function Overlay({ onSelectBee }: OverlayProps) {
               </p>
             </div>
             <h1 className="text-5xl md:text-7xl font-display font-medium tracking-tight leading-tight mb-6 text-white drop-shadow-2xl">
-              Hire AI Employees That <br />
-              <span className="text-nectar-honey">Never Clock Out.</span>
+              AI Employees That Cost <br />
+              <span className="text-nectar-honey">Pennies, Not Paychecks.</span>
             </h1>
             <p className="text-gray-400 text-lg md:text-xl mb-10 max-w-xl font-light leading-relaxed">
-              Nectar.ai provides AI Bees — dedicated workers for customer support, lead
-              generation, content, scheduling, and more. Starting at $199/month.
+              Nectar.ai dispatches specialized AI workers (Bees) for your business tasks.
+              You pay what the AI costs us — plus 30%. Most tasks are free.
+              A full website starts at $301.
             </p>
             <div className="flex flex-col sm:flex-row gap-4">
               <a
@@ -67,10 +68,10 @@ export default function Overlay({ onSelectBee }: OverlayProps) {
                 Meet the Bees <ArrowRight size={18} />
               </a>
               <a
-                href="#contact"
+                href="/pricing"
                 className="px-8 py-4 border border-white/20 hover:bg-white/5 text-white font-medium transition-all rounded-full backdrop-blur-sm text-center pointer-events-auto"
               >
-                Book Free Demo
+                See How Pricing Works
               </a>
             </div>
           </motion.div>
@@ -86,14 +87,14 @@ export default function Overlay({ onSelectBee }: OverlayProps) {
           >
             <h2 className="text-4xl md:text-5xl font-display mb-8 text-gray-300">
               Small businesses are{" "}
-              <span className="text-white font-medium">drowning in busywork.</span>
+              <span className="text-white font-medium">overpaying for basic work.</span>
             </h2>
             <div className="grid gap-6 text-left">
               {[
-                { icon: Clock, text: "40+ hours/week on repetitive tasks" },
-                { icon: Users, text: "Can't afford to hire full-time staff" },
-                { icon: Hash, text: "Leads slip through the cracks" },
-                { icon: Zap, text: "Competitors are already using AI" },
+                { icon: Clock, text: "Agencies charge $3,000 for websites that cost $20 in AI compute" },
+                { icon: Users, text: "Freelancers bill $100/hour for tasks AI does in seconds" },
+                { icon: Hash, text: "AI tools charge monthly but still require you to do the work" },
+                { icon: Zap, text: "No one shows you what the AI actually costs" },
               ].map((item, i) => (
                 <div key={i} className="flex items-center gap-4">
                   <item.icon size={24} className="text-nectar-honey shrink-0" />
@@ -102,7 +103,7 @@ export default function Overlay({ onSelectBee }: OverlayProps) {
               ))}
             </div>
             <p className="mt-8 text-nectar-honey font-medium">
-              AI Bees do the work so you can focus on growth.
+              NECTAR.AI passes through AI costs at zero markup. You see every penny.
             </p>
           </motion.div>
         </section>
@@ -125,7 +126,7 @@ export default function Overlay({ onSelectBee }: OverlayProps) {
             </h2>
             <p className="mb-12 max-w-2xl text-lg text-gray-400">
               Each Bee is trained for a specific job. Click one to configure, see a live demo,
-              and start your 14-day free trial.
+              and start your first task. Pay only for what you use.
             </p>
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
@@ -156,7 +157,9 @@ export default function Overlay({ onSelectBee }: OverlayProps) {
                       className="rounded-full px-2 py-0.5 text-xs font-medium text-black"
                       style={{ backgroundColor: bee.color }}
                     >
-                      ${bee.basePrice}/mo
+                      {bee.taskCosts && bee.taskCosts.length > 0
+                        ? `$${bee.taskCosts[0].estimatedCost.toFixed(2)}+ /task`
+                        : "From $0"}
                     </span>
                   </div>
                   <p className="relative mb-4 text-sm text-gray-400">{bee.shortDesc}</p>
@@ -331,7 +334,7 @@ export default function Overlay({ onSelectBee }: OverlayProps) {
             </h2>
             <p className="text-xl text-gray-400 font-light mb-10">
               Tell us about your business. We'll recommend the right Bees and get you started
-              with a free 14-day trial.
+              with a free setup consultation.
             </p>
 
             <ContactForm />
