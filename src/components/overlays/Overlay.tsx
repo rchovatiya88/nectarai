@@ -22,7 +22,7 @@ const faqs = [
   },
   {
     q: "How is this different from Upwork or Fiverr?",
-    a: "Freelancers charge $50–$150/hour, take days to respond, and disappear mid-project. Bees cost $0–$2 per task (AI cost + 30% fee), respond in seconds, and never ghost you. A full website build costs $301 total vs $2,500+ from an agency.",
+    a: "Freelancers charge $50–$150/hour, take days to respond, and disappear mid-project. Bees cost $0–$2 per task (AI cost + 30% fee), respond in seconds, and never ghost you. A full website build starts at $299 vs $2,500+ from an agency.",
   },
   {
     q: "Can I cancel anytime?",
@@ -58,7 +58,7 @@ export default function Overlay({ onSelectBee }: OverlayProps) {
             <p className="text-gray-400 text-lg md:text-xl mb-10 max-w-xl font-light leading-relaxed">
               Nectar.ai dispatches specialized AI workers (Bees) for your business tasks.
               You pay what the AI costs us — plus 30%. Most tasks are free.
-              A full website starts at $301.
+              A full website starts at $299.
             </p>
             <div className="flex flex-col sm:flex-row gap-4">
               <a

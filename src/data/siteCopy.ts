@@ -4,7 +4,7 @@
 export const hero = {
   headline: "AI Employees That Cost Pennies, Not Paychecks.",
   subheadline:
-    "Nectar.ai dispatches specialized AI workers (Bees) for your business tasks. You pay what the AI costs us — plus a 30% service fee. Most tasks are free. A full website starts at $301.",
+    "Nectar.ai dispatches specialized AI workers (Bees) for your business tasks. You pay what the AI costs us — plus a 30% service fee. Most tasks are free. A full website starts at $299.",
   ctaPrimary: "Meet the Bees",
   ctaSecondary: "See How Pricing Works",
 };

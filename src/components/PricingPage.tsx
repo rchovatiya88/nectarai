@@ -224,7 +224,7 @@ export default function PricingPage() {
                 { name: "Traditional Agency", website: "$3,000", blog: "$300", social: "$800/mo", min: "$1,000/mo", highlight: false },
                 { name: "Freelancer (Upwork)", website: "$1,500", blog: "$100", social: "$400/mo", min: "$400/mo", highlight: false },
                 { name: "AI Tools (Jasper)", website: "DIY", blog: "$0 (your time)", social: "$0 (your time)", min: "$99/mo", highlight: false },
-                { name: "NECTAR.AI", website: "$301", blog: "$0.23", social: "$0/mo", min: "$0", highlight: true },
+                { name: "NECTAR.AI", website: "$299", blog: "$0.23", social: "$0/mo", min: "$0", highlight: true },
               ].map((row, i) => (
                 <div
                   key={i}
@@ -374,7 +374,7 @@ export default function PricingPage() {
                   a: "We use free AI models (Llama, DeepSeek, Qwen) for 80% of tasks. These models are as good as paid ones for most work. When we need premium quality, we use Claude or GPT — and you pay exactly what they cost us, plus 30%."
                 },
                 {
-                  q: "Can I really get a website for $301?",
+                  q: "Can I really get a website for $299?",
                   a: "Yes. The $299 setup covers bot configuration, Google Drive integration, and project setup. The actual AI tasks to build a 5-page website cost about $2.24 in model fees. Compare that to $2,500–$5,000 from an agency."
                 },
                 {

@@ -39,7 +39,7 @@ export default function HowItWorks() {
           Hire AI talent in minutes, not months.
         </h2>
         <p className="text-gray-400 text-lg max-w-2xl mx-auto">
-          Traditional agencies charge $2,500 for what we deliver for $301. Same quality, 1/10th the price, full transparency.
+          Traditional agencies charge $2,500 for what we deliver for $299. Same quality, 1/10th the price, full transparency.
         </p>
       </motion.div>
 
