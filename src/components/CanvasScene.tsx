@@ -19,7 +19,7 @@ export default function CanvasScene({ onSelectBee, onReady }: CanvasSceneProps) 
       <ambientLight intensity={0.5} />
 
       <Suspense fallback={null}>
-        <ScrollControls pages={7} damping={0.1} style={{ scrollbarWidth: "none" }}>
+        <ScrollControls pages={10} damping={0.1} style={{ scrollbarWidth: "none" }}>
           <Experience />
           <Overlay onSelectBee={onSelectBee} />
         </ScrollControls>

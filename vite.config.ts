@@ -13,6 +13,13 @@ export default defineConfig({
   build: {
     target: "esnext",
     sourcemap: true,
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          three: ["three", "@react-three/fiber", "@react-three/drei", "@react-three/postprocessing"],
+        },
+      },
+    },
   },
   server: {
     hmr: process.env.DISABLE_HMR !== "true",
