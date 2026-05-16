@@ -1,7 +1,7 @@
 import { useRef, useMemo } from "react";
 import { useFrame } from "@react-three/fiber";
-import { useScroll } from "@react-three/drei";
 import * as THREE from "three";
+import { useWindowScrollRef } from "./useWindowScroll";
 
 interface HiveProps {
   position?: [number, number, number];
@@ -12,7 +12,7 @@ interface HiveProps {
 export default function Hive({ position = [0, 0, 0], scale = 1, core = false }: HiveProps) {
   const groupRef = useRef<THREE.Group>(null);
   const hexRef = useRef<THREE.InstancedMesh>(null);
-  const scroll = useScroll();
+  const scrollRef = useWindowScrollRef();
 
   const count = core ? 100 : 40;
   const dummy = useMemo(() => new THREE.Object3D(), []);
@@ -43,7 +43,7 @@ export default function Hive({ position = [0, 0, 0], scale = 1, core = false }: 
     groupRef.current.rotation.x = Math.sin(state.clock.elapsedTime * 0.2) * 0.1;
 
     // Pulse based on scroll
-    const scrollPulse = core ? scroll.offset : 1;
+    const scrollPulse = core ? scrollRef.current : 1;
 
     for (let i = 0; i < count; i++) {
       const p = positions[i];

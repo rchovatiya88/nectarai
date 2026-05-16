@@ -1,33 +1,23 @@
-import { useMemo, useState } from "react";
+import { useState } from "react";
 import type { Bee } from "./data/bees";
-import ParticleBackground from "./components/ParticleBackground";
 import Navigation from "./components/Navigation";
-import Overlay from "./components/overlays/Overlay";
-import PricingPage from "./components/PricingPage";
+import CanvasScene from "./components/CanvasScene";
 import BeeConfigurator from "./components/BeeConfigurator";
+import PricingPage from "./components/PricingPage";
+import Overlay from "./components/overlays/Overlay";
 
 export default function App() {
   const [selectedBee, setSelectedBee] = useState<Bee | null>(null);
 
-  const isPricing = useMemo(
-    () => /^\/?pricing\/?$/i.test(window.location.pathname),
-    []
-  );
-
-  if (isPricing) {
+  if (/^\/?pricing\/?$/i.test(window.location.pathname)) {
     return <PricingPage />;
   }
 
   return (
     <div className="w-full min-h-screen bg-nectar-black selection:bg-nectar-honey selection:text-nectar-black font-sans relative">
-      <ParticleBackground />
       <Navigation />
-
-      <BeeConfigurator
-        bee={selectedBee}
-        onClose={() => setSelectedBee(null)}
-      />
-
+      <BeeConfigurator bee={selectedBee} onClose={() => setSelectedBee(null)} />
+      <CanvasScene />
       <Overlay onSelectBee={setSelectedBee} />
     </div>
   );

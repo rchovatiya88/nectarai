@@ -1,5 +1,4 @@
 import { motion } from "framer-motion";
-import { Scroll } from "@react-three/drei";
 import { ArrowRight, Bot, Zap, Users, Clock, Hash } from "lucide-react";
 import { bees } from "../../data/bees";
 import ContactForm from "../ContactForm";
@@ -37,7 +36,7 @@ const faqs = [
 
 export default function Overlay({ onSelectBee }: OverlayProps) {
   return (
-    <Scroll html style={{ width: "100%", height: "100%" }}>
+    <div className="relative z-10 pointer-events-none">
         {/* SECTION 1: HERO */}
         <section className="h-screen w-full flex flex-col justify-center px-10 md:px-24">
           <motion.div
@@ -63,13 +62,13 @@ export default function Overlay({ onSelectBee }: OverlayProps) {
             <div className="flex flex-col sm:flex-row gap-4">
               <a
                 href="#bees"
-                className="px-8 py-4 bg-nectar-honey hover:bg-nectar-glow text-nectar-black font-medium transition-all rounded-full drop-shadow-[0_0_15px_rgba(245,183,0,0.4)] text-center flex items-center justify-center gap-2"
+                className="px-8 py-4 bg-nectar-honey hover:bg-nectar-glow text-nectar-black font-medium transition-all rounded-full drop-shadow-[0_0_15px_rgba(245,183,0,0.4)] text-center flex items-center justify-center gap-2 pointer-events-auto"
               >
                 Meet the Bees <ArrowRight size={18} />
               </a>
               <a
                 href="#contact"
-                className="px-8 py-4 border border-white/20 hover:bg-white/5 text-white font-medium transition-all rounded-full backdrop-blur-sm text-center"
+                className="px-8 py-4 border border-white/20 hover:bg-white/5 text-white font-medium transition-all rounded-full backdrop-blur-sm text-center pointer-events-auto"
               >
                 Book Free Demo
               </a>
@@ -109,7 +108,7 @@ export default function Overlay({ onSelectBee }: OverlayProps) {
         </section>
 
         {/* SECTION 3: BEE MARKETPLACE */}
-        <section className="min-h-screen w-full flex flex-col justify-center px-10 md:px-24 py-20" id="bees">
+        <section className="min-h-screen w-full flex flex-col justify-center px-10 md:px-24 py-20 pointer-events-auto" id="bees">
           <motion.div
             initial={{ opacity: 0, y: 50 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -320,7 +319,7 @@ export default function Overlay({ onSelectBee }: OverlayProps) {
         </section>
 
         {/* SECTION 10: CTA / CONTACT */}
-        <section className="h-screen w-full flex flex-col justify-center items-center text-center px-10 md:px-24 bg-[#050505]/80" id="contact">
+        <section className="h-screen w-full flex flex-col justify-center items-center text-center px-10 md:px-24 bg-[#050505]/80 pointer-events-auto" id="contact">
           <motion.div
             initial={{ opacity: 0, scale: 0.95 }}
             whileInView={{ opacity: 1, scale: 1 }}
@@ -338,6 +337,6 @@ export default function Overlay({ onSelectBee }: OverlayProps) {
             <ContactForm />
           </motion.div>
         </section>
-      </Scroll>
+      </div>
   );
 }

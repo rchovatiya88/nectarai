@@ -1,14 +1,14 @@
 import { useRef } from "react";
 import { useFrame } from "@react-three/fiber";
-import { useScroll } from "@react-three/drei";
 import * as THREE from "three";
 import Bees from "./Bees";
 import Flower from "./Flower";
 import Hive from "./Hive";
 import Particles from "./Particles";
+import { useWindowScrollRef } from "./useWindowScroll";
 
 export default function Experience() {
-  const scroll = useScroll();
+  const scrollRef = useWindowScrollRef();
   const cameraGroup = useRef<THREE.Group>(null);
   const cursorLightRef = useRef<THREE.PointLight>(null);
   const pointerVec = new THREE.Vector3();
@@ -16,17 +16,19 @@ export default function Experience() {
   useFrame((state, delta) => {
     if (!cameraGroup.current) return;
 
+    const scroll = scrollRef.current;
+
     // Smooth scroll camera
     cameraGroup.current.position.z = THREE.MathUtils.lerp(
       cameraGroup.current.position.z,
-      -scroll.offset * 25, // Extend distance to match 7 pages
+      -scroll * 25,
       delta * 12
     );
 
     // Add slight sway based on scroll
     cameraGroup.current.rotation.y = THREE.MathUtils.lerp(
       cameraGroup.current.rotation.y,
-      Math.sin(scroll.offset * Math.PI * 4) * 0.1,
+      Math.sin(scroll * Math.PI * 4) * 0.1,
       delta * 8
     );
 
