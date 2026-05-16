@@ -67,9 +67,7 @@ test.describe("Bee Marketplace", () => {
     }
   });
 
-  test("each Bee card shows price badge", async ({ page }) => {
-    const cards = page.locator("h3:has-text('Bee')").locator("..");
-    const count = await page.locator("h3").filter({ hasText: /Bee$/ }).count();
+  test("each Bee card shows price badge", async ({ page }) => {    const count = await page.locator("h3").filter({ hasText: /Bee$/ }).count();
     expect(count).toBeGreaterThanOrEqual(7);
   });
 

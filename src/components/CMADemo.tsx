@@ -1,6 +1,19 @@
-import { useState, useRef } from "react";
+import { useState, useCallback, useRef, useEffect } from "react";
 import { motion } from "framer-motion";
-import { Home, TrendingUp, DollarSign, BarChart3, FileText, MapPin, Search, Loader2, Bed, Bath, Square, Calendar, ArrowUpRight } from "lucide-react";
+import {
+  Home,
+  TrendingUp,
+  DollarSign,
+  BarChart3,
+  FileText,
+  MapPin,
+  Search,
+  Loader2,
+  Bed,
+  Bath,
+  Square,
+  Calendar,
+} from "lucide-react";
 
 interface Comp {
   address: string;
@@ -52,8 +65,8 @@ function generateMockCMA(
       address: `${streetNums[i]} ${streetNames[i]} St`,
       price: Math.round(compPrice / 1000) * 1000,
       sqft: compSqft,
-      beds: beds + Math.floor((Math.random() - 0.5) * 2),
-      baths: baths + Math.floor((Math.random() - 0.5) * 2),
+      beds: Math.max(1, beds + Math.floor((Math.random() - 0.5) * 2)),
+      baths: Math.max(1, baths + Math.floor((Math.random() - 0.5) * 2)),
       dom: Math.floor(5 + Math.random() * 25),
       soldDate: new Date(Date.now() - (i + 1) * 18 * 86400000).toLocaleDateString("en-US", {
         month: "short",
@@ -92,16 +105,27 @@ export default function CMADemo({ beeColor }: { beeColor: string }) {
   const [sqft, setSqft] = useState(1800);
   const [loading, setLoading] = useState(false);
   const [report, setReport] = useState<CMAReport | null>(null);
+  const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  const handleGenerate = () => {
+  useEffect(() => {
+    return () => {
+      if (timeoutRef.current) clearTimeout(timeoutRef.current);
+    };
+  }, []);
+
+  const handleGenerate = useCallback(() => {
     if (!address.trim()) return;
     setLoading(true);
     setReport(null);
-    setTimeout(() => {
+    if (timeoutRef.current) clearTimeout(timeoutRef.current);
+    timeoutRef.current = setTimeout(() => {
       setReport(generateMockCMA(address.trim(), beds, baths, sqft));
       setLoading(false);
     }, 1800);
-  };
+  }, [address, beds, baths, sqft]);
+
+  // Pre-compute maxPrice once
+  const maxPrice = report ? Math.max(...report.comps.map((c) => c.price)) : 0;
 
   return (
     <div className="space-y-6">
@@ -116,7 +140,7 @@ export default function CMADemo({ beeColor }: { beeColor: string }) {
             </div>
             <h3 className="text-xl font-display text-white mb-2">Generate a CMA Report</h3>
             <p className="text-gray-400 text-sm">
-              Enter any property address and basic specs. MarketBee will instantly analyze comparable sales and suggest an optimal list price.
+              Enter any property address and basic specs. MarketBee will analyze comparable sales and suggest an optimal list price.
             </p>
           </div>
 
@@ -145,9 +169,7 @@ export default function CMADemo({ beeColor }: { beeColor: string }) {
                   className="w-full rounded-xl border border-white/10 bg-white/[0.03] px-4 py-3 text-sm text-white outline-none focus:border-white/20"
                 >
                   {[1, 2, 3, 4, 5, 6].map((n) => (
-                    <option key={n} value={n} className="bg-[#0a0a0a]">
-                      {n}
-                    </option>
+                    <option key={n} value={n} className="bg-[#0a0a0a]">{n}</option>
                   ))}
                 </select>
               </div>
@@ -161,9 +183,7 @@ export default function CMADemo({ beeColor }: { beeColor: string }) {
                   className="w-full rounded-xl border border-white/10 bg-white/[0.03] px-4 py-3 text-sm text-white outline-none focus:border-white/20"
                 >
                   {[1, 1.5, 2, 2.5, 3, 3.5, 4].map((n) => (
-                    <option key={n} value={n} className="bg-[#0a0a0a]">
-                      {n}
-                    </option>
+                    <option key={n} value={n} className="bg-[#0a0a0a]">{n}</option>
                   ))}
                 </select>
               </div>
@@ -201,7 +221,7 @@ export default function CMADemo({ beeColor }: { beeColor: string }) {
 
           <div className="mt-8 rounded-xl border border-white/5 bg-white/[0.02] p-4">
             <p className="text-xs text-gray-500 leading-relaxed">
-              <span className="text-nectar-honey">Note:</span> This demo generates realistic mock data based on your inputs. In production, MarketBee connects to MLS databases via RESO Web API, public records, and proprietary valuation models to provide actual comparable sales and real-time pricing recommendations.
+              <span className="text-nectar-honey">Note:</span> This demo generates realistic mock data. In production, MarketBee would connect to MLS databases via RESO Web API.
             </p>
           </div>
         </div>
@@ -222,10 +242,7 @@ export default function CMADemo({ beeColor }: { beeColor: string }) {
                 <span>{(report.subjectLot / 43560).toFixed(2)} acre lot</span>
               </div>
             </div>
-            <div
-              className="px-3 py-1.5 rounded-full text-xs font-medium text-black"
-              style={{ backgroundColor: beeColor }}
-            >
+            <div className="px-3 py-1.5 rounded-full text-xs font-medium text-black" style={{ backgroundColor: beeColor }}>
               {report.confidence} Confidence
             </div>
           </div>
@@ -236,10 +253,7 @@ export default function CMADemo({ beeColor }: { beeColor: string }) {
               <p className="text-sm text-gray-400 mb-1">Low Estimate</p>
               <p className="text-2xl font-display text-white">{formatCurrency(report.lowValue)}</p>
             </div>
-            <div
-              className="rounded-2xl border p-5 text-center"
-              style={{ borderColor: `${beeColor}40`, backgroundColor: `${beeColor}08` }}
-            >
+            <div className="rounded-2xl border p-5 text-center" style={{ borderColor: `${beeColor}40`, backgroundColor: `${beeColor}08` }}>
               <p className="text-sm mb-1" style={{ color: beeColor }}>Suggested List Price</p>
               <p className="text-3xl font-display text-white">{formatCurrency(report.suggestedPrice)}</p>
             </div>
@@ -290,15 +304,12 @@ export default function CMADemo({ beeColor }: { beeColor: string }) {
                 >
                   <div className="flex items-center justify-between mb-3">
                     <div className="flex items-center gap-3">
-                      <div
-                        className="flex h-8 w-8 items-center justify-center rounded-lg text-xs font-medium text-black"
-                        style={{ backgroundColor: beeColor }}
-                      >
+                      <div className="flex h-8 w-8 items-center justify-center rounded-lg text-xs font-medium text-black" style={{ backgroundColor: beeColor }}>
                         {i + 1}
                       </div>
                       <div>
                         <p className="text-sm font-medium text-white">{comp.address}</p>
-                        <p className="text-xs text-gray-500">{comp.distance} away • Sold {comp.soldDate}</p>
+                        <p className="text-xs text-gray-500">{comp.distance} away &bull; Sold {comp.soldDate}</p>
                       </div>
                     </div>
                     <div className="text-right">
@@ -306,15 +317,12 @@ export default function CMADemo({ beeColor }: { beeColor: string }) {
                       <p className="text-xs text-gray-500">{Math.round(comp.price / comp.sqft)}/sqft</p>
                     </div>
                   </div>
-
                   <div className="flex items-center gap-4 text-xs text-gray-400 mb-2">
                     <span>{comp.beds} bed</span>
                     <span>{comp.baths} bath</span>
                     <span>{comp.sqft.toLocaleString()} sqft</span>
                     <span>{comp.dom} DOM</span>
                   </div>
-
-                  {/* Similarity bar */}
                   <div className="flex items-center gap-2">
                     <span className="text-xs text-gray-500 w-16">Match {comp.similarity}%</span>
                     <div className="flex-1 h-1.5 rounded-full bg-white/5 overflow-hidden">
@@ -339,8 +347,7 @@ export default function CMADemo({ beeColor }: { beeColor: string }) {
             </h4>
             <div className="flex items-end gap-2 h-32 px-2">
               {report.comps.map((comp, i) => {
-                const maxPrice = Math.max(...report.comps.map((c) => c.price));
-                const heightPct = (comp.price / maxPrice) * 100;
+                const heightPct = maxPrice > 0 ? (comp.price / maxPrice) * 100 : 0;
                 return (
                   <div key={i} className="flex-1 flex flex-col items-center gap-1">
                     <span className="text-[10px] text-gray-500">{(comp.price / 1000).toFixed(0)}k</span>

@@ -1,6 +1,6 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { X, Check, MessageSquare, Sparkles, ChevronRight, Home, TrendingUp, DollarSign, BarChart3, FileText, MapPin } from "lucide-react";
+import { X, Check, Sparkles, ChevronRight } from "lucide-react";
 import type { Bee } from "../data/bees";
 import CMADemo from "./CMADemo";
 
@@ -16,8 +16,19 @@ export default function BeeConfigurator({ bee, onClose }: BeeConfiguratorProps) 
   const [demoInput, setDemoInput] = useState("");
   const [isTyping, setIsTyping] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
+  const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const isCMA = bee?.variant === "cma";
+
+  // Clear pending timeouts when bee changes or on unmount
+  useEffect(() => {
+    return () => {
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current);
+        timeoutRef.current = null;
+      }
+    };
+  }, [bee]);
 
   // Initialize configs from defaults
   useEffect(() => {
@@ -25,7 +36,6 @@ export default function BeeConfigurator({ bee, onClose }: BeeConfiguratorProps) 
       const defaults: Record<string, boolean> = {};
       bee.configs.forEach((c) => (defaults[c.key] = c.defaultValue));
       setSelectedConfigs(defaults);
-
       if (!isCMA && bee.examples.length > 0) {
         setDemoMessages([
           { role: "user", text: bee.examples[0].user },
@@ -35,46 +45,52 @@ export default function BeeConfigurator({ bee, onClose }: BeeConfiguratorProps) 
     }
   }, [bee, isCMA]);
 
+  // Reset tab on open
+  useEffect(() => {
+    if (bee) setActiveTab("overview");
+  }, [bee?.id]);
+
+  // Scroll chat
   useEffect(() => {
     if (scrollRef.current) {
       scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
     }
-  }, [demoMessages]);
+  }, [demoMessages, isTyping]);
 
-  if (!bee) return null;
-
-  const toggleConfig = (key: string) => {
+  const toggleConfig = useCallback((key: string) => {
     setSelectedConfigs((prev) => ({ ...prev, [key]: !prev[key] }));
-  };
+  }, []);
 
-  const addOnPrice = bee.configs.reduce((sum, c) => {
-    return selectedConfigs[c.key] ? sum + c.priceModifier : sum;
-  }, 0);
+  const addOnPrice = bee?.configs.reduce(
+    (sum, c) => (selectedConfigs[c.key] ? sum + c.priceModifier : sum),
+    0
+  ) ?? 0;
 
-  const totalPrice = bee.basePrice + addOnPrice;
+  const totalPrice = (bee?.basePrice ?? 0) + addOnPrice;
 
-  const handleDemoSend = async () => {
-    if (!demoInput.trim()) return;
+  const handleDemoSend = useCallback(() => {
+    if (!bee || !demoInput.trim()) return;
     const userMsg = demoInput.trim();
     setDemoMessages((prev) => [...prev, { role: "user", text: userMsg }]);
     setDemoInput("");
     setIsTyping(true);
 
-    setTimeout(() => {
+    if (timeoutRef.current) clearTimeout(timeoutRef.current);
+    timeoutRef.current = setTimeout(() => {
       const fallback = `As ${bee.name}, I'd be happy to help with that! In a real deployment, I'd connect to your business systems and provide a personalized response. For now, imagine me handling this 24/7 for your customers.`;
       setDemoMessages((prev) => [...prev, { role: "bee", text: fallback }]);
       setIsTyping(false);
     }, 1200);
-  };
+  }, [bee, demoInput]);
 
-  const loadExample = (idx: number) => {
-    if (bee.examples[idx]) {
+  const loadExample = useCallback((idx: number) => {
+    if (bee?.examples[idx]) {
       setDemoMessages([
         { role: "user", text: bee.examples[idx].user },
         { role: "bee", text: bee.examples[idx].bee },
       ]);
     }
-  };
+  }, [bee]);
 
   return (
     <AnimatePresence>
@@ -164,6 +180,7 @@ export default function BeeConfigurator({ bee, onClose }: BeeConfiguratorProps) 
                           {bee.configs.map((config) => (
                             <label
                               key={config.key}
+                              onClick={() => toggleConfig(config.key)}
                               className={`flex cursor-pointer items-center gap-4 rounded-xl border p-4 transition-all ${
                                 selectedConfigs[config.key]
                                   ? "border-white/20 bg-white/[0.04]"
@@ -172,28 +189,17 @@ export default function BeeConfigurator({ bee, onClose }: BeeConfiguratorProps) 
                             >
                               <div
                                 className={`flex h-6 w-6 shrink-0 items-center justify-center rounded-md border transition-all ${
-                                  selectedConfigs[config.key]
-                                    ? "border-transparent"
-                                    : "border-white/20"
+                                  selectedConfigs[config.key] ? "border-transparent" : "border-white/20"
                                 }`}
-                                style={
-                                  selectedConfigs[config.key]
-                                    ? { backgroundColor: bee.color }
-                                    : undefined
-                                }
+                                style={selectedConfigs[config.key] ? { backgroundColor: bee.color } : undefined}
                               >
-                                {selectedConfigs[config.key] && (
-                                  <Check size={14} className="text-black" />
-                                )}
+                                {selectedConfigs[config.key] && <Check size={14} className="text-black" />}
                               </div>
-                              <div className="flex-1" onClick={() => toggleConfig(config.key)}>
+                              <div className="flex-1">
                                 <p className="text-sm font-medium text-white">{config.label}</p>
                                 <p className="text-xs text-gray-500">{config.description}</p>
                               </div>
-                              <span
-                                className="shrink-0 text-sm font-medium"
-                                style={{ color: bee.color }}
-                              >
+                              <span className="shrink-0 text-sm font-medium" style={{ color: bee.color }}>
                                 +${config.priceModifier}/mo
                               </span>
                             </label>
@@ -218,6 +224,7 @@ export default function BeeConfigurator({ bee, onClose }: BeeConfiguratorProps) 
                     </div>
 
                     <button
+                      onClick={() => alert(`Trial signup for ${bee.name} — coming to production soon!`)}
                       className="mb-4 w-full rounded-xl py-3 font-medium text-black transition-all hover:brightness-110"
                       style={{ backgroundColor: bee.color }}
                     >
@@ -228,9 +235,7 @@ export default function BeeConfigurator({ bee, onClose }: BeeConfiguratorProps) 
                     </p>
 
                     <div className="mt-6 space-y-2 border-t border-white/10 pt-6">
-                      <p className="text-xs font-medium text-gray-400 uppercase tracking-wider">
-                        What's included
-                      </p>
+                      <p className="text-xs font-medium text-gray-400 uppercase tracking-wider">What's included</p>
                       {bee.features.slice(0, 4).map((f) => (
                         <div key={f} className="flex items-center gap-2 text-sm text-gray-400">
                           <Check size={14} style={{ color: bee.color }} />
@@ -248,10 +253,7 @@ export default function BeeConfigurator({ bee, onClose }: BeeConfiguratorProps) 
                   <div className="flex flex-col h-[500px] rounded-2xl border border-white/10 bg-black/40 overflow-hidden">
                     <div ref={scrollRef} className="flex-1 overflow-y-auto p-4 space-y-4">
                       {demoMessages.map((msg, i) => (
-                        <div
-                          key={i}
-                          className={`flex ${msg.role === "user" ? "justify-end" : "justify-start"}`}
-                        >
+                        <div key={i} className={`flex ${msg.role === "user" ? "justify-end" : "justify-start"}`}>
                           <div
                             className={`max-w-[80%] rounded-2xl px-4 py-3 text-sm leading-relaxed ${
                               msg.role === "user"
@@ -309,7 +311,7 @@ export default function BeeConfigurator({ bee, onClose }: BeeConfiguratorProps) 
                           onClick={() => loadExample(i)}
                           className="w-full rounded-xl border border-white/5 bg-white/[0.02] p-3 text-left text-sm text-gray-400 transition-colors hover:border-white/10 hover:bg-white/[0.04]"
                         >
-                          "{ex.user}"
+                          &ldquo;{ex.user}&rdquo;
                         </button>
                       ))}
                     </div>
@@ -319,9 +321,7 @@ export default function BeeConfigurator({ bee, onClose }: BeeConfiguratorProps) 
                         <p className="text-xs font-medium text-gray-400">Demo Mode</p>
                       </div>
                       <p className="text-xs text-gray-500 leading-relaxed">
-                        This is a simulated preview. A real {bee.name} would connect to your
-                        systems and provide personalized, context-aware responses based on your
-                        actual business data.
+                        This is a simulated preview. A real {bee.name} would connect to your systems and provide personalized, context-aware responses based on your actual business data.
                       </p>
                     </div>
                   </div>

@@ -1,15 +1,9 @@
-import {StrictMode} from 'react';
-import {createRoot} from 'react-dom/client';
-import App from './App.tsx';
-import './index.css';
+import { StrictMode } from "react";
+import { createRoot } from "react-dom/client";
+import App from "./App";
+import "./index.css";
 
-let root = (window as any)._reactRoot;
-if (!root) {
-  root = createRoot(document.getElementById('root')!);
-  (window as any)._reactRoot = root;
-}
-
-root.render(
+createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <App />
   </StrictMode>
