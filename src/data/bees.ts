@@ -19,6 +19,7 @@ export interface Bee {
   name: string;
   role: string;
   emoji: string;
+  variant?: "chat" | "cma";
   shortDesc: string;
   description: string;
   basePrice: number;
@@ -290,6 +291,58 @@ export const bees: Bee[] = [
       {
         user: "Yes send me the at-risk list",
         bee: "Here are the top 5 at-risk accounts by projected LTV loss:\n\n1. Acme Corp ($12,400 LTV) — usage down 60%\n2. BrightSide ($9,800 LTV) — support tickets spiking\n3. TechFlow ($8,200 LTV) — payment failed twice\n4. GreenLeaf ($6,100 LTV) — no login in 21 days\n5. BlueOcean ($5,400 LTV) — competitor mention in support chat\n\nWant me to draft personalized retention offers for each?",
+      },
+    ],
+  },
+  {
+    id: "market",
+    name: "MarketBee",
+    role: "CMA & Pricing",
+    emoji: "🏠",
+    variant: "cma",
+    shortDesc: "Generates instant CMA reports and suggests optimal listing prices.",
+    description:
+      "MarketBee analyzes local comparable sales, market trends, and property features to generate professional Comparative Market Analysis (CMA) reports in seconds. Perfect for real estate agents who need fast, accurate pricing recommendations backed by real data.",
+    basePrice: 399,
+    color: "#22C55E",
+    features: [
+      "Instant CMA from any property address",
+      "Comparable sales analysis with adjustments",
+      "Price-per-sqft trend charts",
+      "Days on market and absorption rate",
+      "Branded PDF reports for clients",
+    ],
+    configs: [
+      {
+        key: "pdf_export",
+        label: "PDF Export",
+        description: "Generate branded PDF reports with your logo and contact info",
+        defaultValue: true,
+        priceModifier: 50,
+      },
+      {
+        key: "auto_refresh",
+        label: "Auto-Refresh",
+        description: "Weekly market updates for tracked properties",
+        defaultValue: false,
+        priceModifier: 40,
+      },
+      {
+        key: "mls",
+        label: "MLS Integration",
+        description: "Direct sync with your local MLS (RETS/RESO API)",
+        defaultValue: false,
+        priceModifier: 100,
+      },
+    ],
+    examples: [
+      {
+        user: "742 Evergreen Terrace, Austin, TX 78723",
+        bee: "Analyzing 742 Evergreen Terrace...\n\nCMA Report Summary:\n• Estimated Value: $485,000 – $512,000\n• Suggested List Price: $499,000\n• Confidence: High\n\nComparable Sales (last 90 days):\n1. 738 Evergreen — $490K, 1,750 sqft (10 DOM)\n2. 745 Maple — $475K, 1,680 sqft (18 DOM)\n3. 750 Oak — $515K, 1,920 sqft (5 DOM)\n\nMarket Trend: +3.2% vs last quarter\nAverage DOM: 12 days\n\nWant me to generate a full PDF report?",
+      },
+      {
+        user: "What should I list my condo for? 2BR, 1,100 sqft, downtown",
+        bee: "I'd be happy to help! To generate an accurate CMA, I'll need the specific address. Once you provide it, I can pull recent comps in your building and neighborhood, adjust for floor, view, and condition, and give you a data-backed list price recommendation. What's the address?",
       },
     ],
   },
